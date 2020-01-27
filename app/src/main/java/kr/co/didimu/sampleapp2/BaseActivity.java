@@ -31,7 +31,7 @@ public class BaseActivity extends AppCompatActivity {
         //툴바 사용여부 결정(기본적으로 사용)
         if(useToolbar()){
             setSupportActionBar(toolbar);
-            setTitle("툴바예제");
+            setTitle("(주)디딤유");
         } else {
             toolbar.setVisibility(View.GONE);
         }
@@ -55,14 +55,20 @@ public class BaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.action_menu1:
-                Toast.makeText(getApplicationContext(),"메뉴1 클릭", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, SubActivity.class);
+            case R.id.action_menu0:
+                //Toast.makeText(getApplicationContext(),"메뉴1 클릭", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 return true;
 
+            case R.id.action_menu1:
+                //Toast.makeText(getApplicationContext(),"메뉴1 클릭", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(this, SubActivity.class);
+                startActivity(intent1);
+                return true;
+
             case R.id.action_menu2:
-                Toast.makeText(getApplicationContext(),"메뉴2 클릭", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"메뉴2 클릭", Toast.LENGTH_SHORT).show();
                 Intent intent2 = new Intent(this, Sub2Activity.class);
                 startActivity(intent2);
                 return true;
