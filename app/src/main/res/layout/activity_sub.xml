@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".SubActivity">
 
+    <WebView
+        android:id="@+id/webview2"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp" />
 </android.support.constraint.ConstraintLayout>
