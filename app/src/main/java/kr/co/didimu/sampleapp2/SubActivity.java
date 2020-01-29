@@ -1,6 +1,7 @@
 package kr.co.didimu.sampleapp2;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -44,9 +45,6 @@ public class SubActivity extends BaseActivity {
         setContentView(R.layout.activity_sub);
 
         //웹뷰 설정
-        CookieManager cm = CookieManager.getInstance();
-        cm.setAcceptCookie(true);
-        cm.setAcceptThirdPartyCookies(webView, true);
 
         webView = (WebView)findViewById(R.id.webview2);
 
@@ -58,11 +56,15 @@ public class SubActivity extends BaseActivity {
         webSettings.setAllowFileAccess(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setSupportMultipleWindows(true);
-        webSetting.setBuiltInZoomControls(true);
+        webSettings.setBuiltInZoomControls(true);
+
+        CookieManager cm = CookieManager.getInstance();
+        cm.setAcceptCookie(true);
+        cm.setAcceptThirdPartyCookies(webView, true);
 
         progressDialog = new ProgressDialog(SubActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
 
-        //webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
 
 
@@ -120,7 +122,7 @@ public class SubActivity extends BaseActivity {
 
             myUrl = url;
 
-            progressDialog.setTitle("제목");
+            progressDialog.setTitle("한네임 - 셀프작명");
             progressDialog.setMessage("Loading");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(true);
@@ -145,6 +147,8 @@ public class SubActivity extends BaseActivity {
     private class MyWebChromeClient extends WebChromeClient {
         @Override
         public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
+
+
             count = 1;
             webView.removeAllViews();
             childView = new WebView(SubActivity.this);
@@ -182,6 +186,26 @@ public class SubActivity extends BaseActivity {
              transport.setWebView(childView);
              resultMsg.sendToTarget();
              return true;
+
+
+            /*
+            WebView newWebView = new WebView(SubActivity.this);
+            WebSettings webSettings = newWebView.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            final Dialog dialog = new Dialog(SubActivity.this);
+            dialog.setContentView(newWebView);
+            dialog.show();
+            newWebView.setWebChromeClient(new WebChromeClient() {
+                @Override
+                public void onCloseWindow(WebView window) {
+                    dialog.dismiss();
+                }
+            });
+            ((WebView.WebViewTransport)resultMsg.obj).setWebView(newWebView);
+            resultMsg.sendToTarget();
+            return true;
+            */
+
 
             //return super.onCreateWindow(view, isDialog, isUserGesture, resultMsg);
         }
