@@ -73,6 +73,9 @@ public class SubActivity extends BaseActivity {
         webView.setWebViewClient(new MyWebViewClient());
 
         webView.loadUrl("http://www.hanname.com/mobile/");
+
+
+
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -148,7 +151,37 @@ public class SubActivity extends BaseActivity {
         @Override
         public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
 
+            WebView newWebView = new WebView(SubActivity.this);
+            WebSettings newWebSettings = newWebView.getSettings();
+            newWebSettings.setJavaScriptEnabled(true);
 
+
+            final Dialog dialog = new Dialog(SubActivity.this);
+            dialog.setContentView(newWebView);
+
+            ViewGroup.LayoutParams params = dialog.getWindow().getAttributes();
+            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+            dialog.show();
+
+
+            newWebView.setWebChromeClient(new WebChromeClient() {
+
+                @Override
+                public void onCloseWindow(WebView window) {
+                    dialog.dismiss();
+                    childView.loadUrl("javascript:self.close();");
+                    //window.removeView(childView);
+                }
+            });
+            WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+            transport.setWebView(newWebView);
+            resultMsg.sendToTarget();
+            return true;
+
+
+            /*
             count = 1;
             webView.removeAllViews();
             childView = new WebView(SubActivity.this);
@@ -164,12 +197,12 @@ public class SubActivity extends BaseActivity {
 
                      if (count == 1) {
                          count = 0;
-                         if (childURL.contains("웹브라우저로 띄우고싶은 url")) {
+                         //if (childURL.contains("웹브라우저로 띄우고싶은 url")) {
                              webView.removeView(childView);
                              Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(childURL));
                              startActivity(intent);
                              childURL="";
-                         }
+                        // }
                      }
                  }
 
@@ -186,7 +219,7 @@ public class SubActivity extends BaseActivity {
              transport.setWebView(childView);
              resultMsg.sendToTarget();
              return true;
-
+            */
 
             /*
             WebView newWebView = new WebView(SubActivity.this);
@@ -209,6 +242,8 @@ public class SubActivity extends BaseActivity {
 
             //return super.onCreateWindow(view, isDialog, isUserGesture, resultMsg);
         }
+
+
 
         @Override
         public void onCloseWindow(WebView window) {
